@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package notification;
+
+service NotificationService {
+  rpc SendNotification (NotificationRequest) returns (NotificationResponse);
+  rpc GetNotificationStatus (StatusRequest) returns (StatusResponse);
+  rpc ListNotifications (ListRequest) returns (ListResponse);
+  rpc SubscribeStatusUpdates (StatusStreamRequest) returns (stream StatusUpdate);
+}
+
+message Notification {
+  string id = 1;
+  string target = 2;
+  string type = 3;
+  string payload = 4;
+  string status = 5;
+}
+
+message NotificationRequest {
+  string target = 1;
+  string type = 2;
+  string payload = 3;
+}
+
+message NotificationResponse {
+  string id = 1;
+  string status = 2;
+}
+
+message StatusRequest {
+  string id = 1;
+}
+
+message StatusResponse {
+  string id = 1;
+  string status = 2;
+}
+
+message ListRequest {}
+
+message ListResponse {
+  repeated Notification notifications = 1;
+}
+
+message StatusStreamRequest {
+  string id = 1;
+}
+
+message StatusUpdate {
+  string id = 1;
+  string status = 2;
+}
